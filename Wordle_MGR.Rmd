@@ -1,7 +1,7 @@
 ---
-title: "Wordle"
-author: "Sarah"
-date: "2024-02-12"
+title: "wordlemaxx"
+author: "Maxximus Ramsaroop"
+date: "2024-02-22"
 output: html_document
 ---
 Step 1 - bring in word banks
@@ -37,6 +37,7 @@ Step 4 - Set up the game.
 play_wordle <- function(solution, valid_list, num_guesses){
   start_text<-paste("You have", num_guesses, "chances to guess a word of length 5.")%>%print()
   guess_count<-0
+  guessed_letters<- c()
   Letters_left<-LETTERS
   print(Letters_left)
   guessed_letters<-c()
@@ -90,3 +91,4 @@ Step 5: Play the game!!
 ```{R}
 play_wordle(solution, valid_list, num_guesses = 6)
 ```
+>>>>>>> f8194c8cbaaf84647cd78ed3bd1971504c8a7fb2
