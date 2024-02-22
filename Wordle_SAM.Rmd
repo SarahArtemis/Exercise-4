@@ -39,6 +39,7 @@ play_wordle <- function(solution, valid_list, num_guesses){
   guess_count<-0
   Letters_left<-LETTERS
   print(Letters_left)
+  guessed_letters<-c()
   Result<-"FALSE"
   
   while (guess_count<num_guesses & Result=="FALSE") {
@@ -47,7 +48,7 @@ play_wordle <- function(solution, valid_list, num_guesses){
     Valid_guess<-length(guess[str_split_1(guess,"")])==5 & grepl(guess,valid_list)
     ifelse(Valid_guess=="TRUE", print(guessed_letters<-str_split_1(guess,"")), print("Please guess a valid 5 letter word. Restart game"))
   
-    Result<-evaluate_guess(guessed_letters, solution) #this code below
+    Result<-evaluate_guess(guessed_letters, solution) #this code is below
 
     if(Result=="TRUE") {
       print("You won! :D")
