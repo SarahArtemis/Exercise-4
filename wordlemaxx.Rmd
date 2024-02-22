@@ -7,7 +7,7 @@ title: "wordlemaxx"
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
-
+library(curl)
 #Load Dictionary Function
 load_dictionary<- function(filename) {
   read_csv(file = filename, col_names = T)
@@ -29,7 +29,7 @@ fives<- filter(solution_list1, nchar(solution_list1$words, "chars")<=5)
 
 #this function solves part 2 step 3:
 singleword<-sample(fives$words, 1, replace = F)
- return(singleword)
+(singleword)
 
 #this code solves part 3 step 3:
 splitword<-strsplit(singleword, split = "", fixed = F)
@@ -58,27 +58,32 @@ guess<- readline(prompt = "insert your answer here then press <enter>:")
 #Full code for play_wordle() function:
 
 play_wordle<- function(solution, valid_list, nguess=6) {
-  start_text<- paste("You have", nguess, "chances to guess a word of the length", nchar(singleword, "chars"))
-  return(start_text)
+start_text<- paste("You have", nguess, "chances to guess a word of the length", nchar(singleword, "chars"))
+print(start_text)
+guessed_letters<- c()
+letters_left<- paste("Letters left:", paste(setdiff(LETTERS, toupper(guessed_letters)), collapse = " ")) 
+print(letters_left)
+guess<- readline(prompt = cat("enter guess number", nguess, "here then press <enter>:")) 
+guess
+evaluate_guess <- function(guess=guess, solution=solution) { 
   
-  guessed_letters<- c()
-  
-  letters_left<- paste("Letters left:", paste(setdiff(LETTERS, guessed_letters), collapse = " "))
-  
-  guess<- readline(prompt = "insert your answer here then press <enter>:") #asks the player for a guess and gives the variable 'guess' the player's guess
-
-evaluate_guess <- function(guess=guess, solution) { 
-  if (guess == solution) {
-    return("Congratulations! You won!") #returns you won! if their guess == solution
+  splitguess<-strsplit(guess, split = "", fixed = F)
+  splitguess<- toupper(splitguess)
+  if (splitguess == solution) {
+    return("Congratulations! You won!")
   }
-splitguess<-strsplit(guess, split = "", fixed = F) #splits guess into individual letters
 
-correct_positions <- sum(splitword == splitguess) #
+correct_positions <- sum(splitword == splitguess) 
+
 correct_letters <- sum(splitword %in% splitguess)
-correct_wrong_positions <- correct_letters - correct_positions    
+
+correct_wrong_positions <- correct_letters - correct_positions  
+
+feedback<- paste( "Correct letters:", correct_letters, "Correct positions:", correct_positions, "Correct letters in wrong positions:", correct_wrong_positions)
+
   }
-
-
+guessed_letters<- append(guessed_letters, unlist(splitguess))
+evaluate_guess(guess = guess, solution = solution)
 }
 
 
